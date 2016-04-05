@@ -1,0 +1,33 @@
+{
+  "name": "yacis",
+  "version": "0.0.1",
+  "description": "Yet ANother Continuous Integration Server",
+  "main": "yacis.js",
+  "scripts": {
+    "start": "node ./yacis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/modesttree/yacis.git"
+  },
+  "keywords": [
+    "continuous",
+    "integration",
+    "build",
+    "server",
+    "build"
+  ],
+  "author": "Steve Vermeulen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/modesttree/yacis/issues"
+  },
+  "homepage": "https://github.com/modesttree/yacis#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "express": "^4.13.4",
+    "minimist": "^1.2.0",
+    "opener": "^1.4.1",
+    "portfinder": "^1.0.3"
+  }
+}
