@@ -71,7 +71,7 @@ function startServer(port) {
 
         if (_options.openBrowser) {
             opener(
-                'http://localhost:' + port,
+                'http://localhost:{0}/status'.fmt(port),
                 { command: null }
             );
         }
