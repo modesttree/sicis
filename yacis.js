@@ -3,11 +3,11 @@ var portfinder = require('portfinder'),
     httpServer = require('./lib/server'),
     opener = require('opener'),
     path = require('path'),
-    minimist = require('minimist');
+    minimist = require('minimist'),
+    log = require('./lib/log');
 
-// This will add properties like ".cyan" to string
-require('colors');
-require('./lib/util');
+// Add .format method to strings
+require('./lib/string-format')
 
 function findOpenPort(callback) {
 
@@ -33,7 +33,7 @@ function exitAllOnCtrlC() {
     }
 
     process.on('SIGINT', function() {
-        _logger('http-server stopped.'.red);
+        log.error('http-server stopped.');
         process.exit();
     });
 }
@@ -55,23 +55,20 @@ function startApp() {
 function startServer(port) {
 
     var serverOptions = {
-        rootPath: _options.rootPath,
+        port: port,
+        repoPath: _options.repoPath,
+        yacisRootPath: path.dirname(process.argv[1]),
     };
 
-    var server = httpServer.start(serverOptions, _logger);
+    httpServer.start(serverOptions, function () {
 
-    server.listen(port, function () {
-
-        _logger('Starting up yacis server at '.yellow
-            + server.rootPath.cyan
-            + ' with address '.yellow
-            + ('http://localhost:' + port).cyan);
-
-        _logger('Hit CTRL-C to stop the server');
+        log.info('Starting up yacis server for repo at "{0}"', _options.repoPath)
+        log.info('Web Interface at http://localhost:{0}', port)
+        log.info('Hit CTRL-C to stop the server');
 
         if (_options.openBrowser) {
             opener(
-                'http://localhost:{0}/status'.fmt(port),
+                'http://localhost:{0}/status'.format(port),
                 { command: null }
             );
         }
@@ -81,27 +78,28 @@ function startServer(port) {
 var argv = minimist(process.argv.slice(2));
 
 if (argv.h || argv.help) {
-    console.log([
+    log.info([
         "usage: yacis [options]",
         "",
         "options:",
+        "  -d                 Directory to use for this yacis instance.  If not given, current directory is used. Note: Must be the root of a git repository.",
         "  -p                 Port to use [8080]",
-        "  -s                 Suppress log messages from output",
-        "  -d                 Do not open browser after starting the server",
+        "  -s                 Suppress browser from auto-opening",
         "",
         "  -h --help          Print this list and exit."
     ].join('\n'));
     process.exit();
 }
 
-_options = {
+var _options = {
     desiredPort: argv.p,
-    isSilent: argv.s,
-    rootPath: path.dirname(process.argv[1]),
-    openBrowser: !argv.d,
-}
+    repoPath: argv.d,
+    openBrowser: !argv.s,
+};
 
-_logger = _options.isSilent ? (function () {}) : console.log;
+if (!_options.repoPath) {
+    _options.repoPath = path.resolve('./');
+}
 
 startApp()
 
