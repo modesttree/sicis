@@ -38,6 +38,10 @@
       text-align: left;
       padding: 15px; }
       .mainContent #buildLog #buildLogContent .error {
-        color: red; }
+        color: red;
+        font-weight: bold; }
+      .mainContent #buildLog #buildLogContent .good {
+        color: green;
+        font-weight: bold; }
 
 /*# sourceMappingURL=status.css.map */
