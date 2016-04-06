@@ -1,19 +1,19 @@
 
-var portfinder = require('portfinder'),
-    httpServer = require('./lib/server'),
-    opener = require('opener'),
-    path = require('path'),
-    minimist = require('minimist'),
-    log = require('./lib/log'),
-    repoWatcher = require('./lib/repoWatcher');
+var _portfinder = require('portfinder'),
+    _httpServer = require('./lib/server'),
+    _opener = require('opener'),
+    _path = require('path'),
+    _minimist = require('minimist'),
+    _log = require('./lib/log'),
+    _repoWatcher = require('./lib/repoWatcher');
 
 // Add .format method to strings
 require('./lib/string-helpers')
 
 var _findOpenPort = function(callback) {
 
-    portfinder.basePort = 8080;
-    portfinder.getPort(function (err, port) {
+    _portfinder.basePort = 8080;
+    _portfinder.getPort(function (err, port) {
 
         if (err) {
             throw err;
@@ -34,7 +34,7 @@ var _exitAllOnCtrlC = function() {
     }
 
     process.on('SIGINT', function() {
-        log.error('http-server stopped.');
+        _log.error('http-server stopped.');
         process.exit();
     });
 }
@@ -44,7 +44,7 @@ var _startApp = function() {
     _exitAllOnCtrlC()
 
     // Now that the server is started, start monitoring the repo
-    repoWatcher.monitorCurrentRepoForChanges("build.bat", ["-bf"], function() {
+    _repoWatcher.monitorCurrentRepoForChanges("build.bat", ["-bf"], function() {
         if (_options.desiredPort) {
             _startServer(_options.desiredPort);
         }
@@ -61,17 +61,17 @@ var _startServer = function(port) {
     var serverOptions = {
         port: port,
         repoPath: _options.repoPath,
-        yacisRootPath: path.dirname(process.argv[1]),
+        yacisRootPath: _path.dirname(process.argv[1]),
     };
 
-    httpServer.start(serverOptions, function () {
+    _httpServer.start(serverOptions, function () {
 
-        log.info('Starting up yacis server for repo at "{0}"', _options.repoPath)
-        log.info('Web Interface at http://localhost:{0}', port)
-        log.info('Hit CTRL-C to stop the server');
+        _log.info('Starting up yacis server for repo at "{0}"', _options.repoPath)
+        _log.info('Web Interface at http://localhost:{0}', port)
+        _log.info('Hit CTRL-C to stop the server');
 
         if (_options.openBrowser) {
-            opener(
+            _opener(
                 'http://localhost:{0}/status'.format(port),
                 { command: null }
             );
@@ -79,10 +79,10 @@ var _startServer = function(port) {
     });
 }
 
-var _argv = minimist(process.argv.slice(2));
+var _argv = _minimist(process.argv.slice(2));
 
 if (_argv.h || _argv.help) {
-    log.info([
+    _log.info([
         "usage: yacis [options]",
         "",
         "options:",
@@ -102,7 +102,7 @@ var _options = {
 };
 
 if (!_options.repoPath) {
-    _options.repoPath = path.resolve('./');
+    _options.repoPath = _path.resolve('./');
 }
 
 _startApp()

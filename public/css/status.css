@@ -8,9 +8,7 @@
     .mainContent #infoPane table {
       width: 100%; }
       .mainContent #infoPane table tr td {
-        padding-bottom: 10px; }
-      .mainContent #infoPane table tr.spacer td {
-        height: 20px; }
+        padding-bottom: 15px; }
       .mainContent #infoPane table tr td:first-child {
         width: 30%;
         text-align: right;
@@ -31,7 +29,8 @@
   .mainContent #buttonsPane input {
     padding: 10px;
     width: 200px;
-    margin-right: 15px; }
+    margin-right: 15px;
+    font-weight: bold; }
   .mainContent #buildLog {
     padding: 20px 0px 0 0px; }
     .mainContent #buildLog #buildLogContent {
