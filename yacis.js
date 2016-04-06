@@ -44,7 +44,7 @@ var _startApp = function() {
     _exitAllOnCtrlC()
 
     // Now that the server is started, start monitoring the repo
-    _repoWatcher.monitorCurrentRepoForChanges("build.bat", ["-bf"], function() {
+    _repoWatcher.monitorCurrentRepoForChanges(_options.buildCommand, function() {
         if (_options.desiredPort) {
             _startServer(_options.desiredPort);
         }
@@ -86,9 +86,10 @@ if (_argv.h || _argv.help) {
         "usage: yacis [options]",
         "",
         "options:",
+        "  -c                 Build command to trigger every time the repository is modified",
         "  -d                 Directory to use for this yacis instance.  If not given, current directory is used. Note: Must be the root of a git repository.",
-        "  -p                 Port to use [8080]",
-        "  -s                 Suppress browser from auto-opening",
+        "  -p                 Port to use (defaults to 8080)",
+        "  -o                 Automatically open browser after server starts",
         "",
         "  -h --help          Print this list and exit."
     ].join('\n'));
@@ -98,11 +99,17 @@ if (_argv.h || _argv.help) {
 var _options = {
     desiredPort: _argv.p,
     repoPath: _argv.d,
-    openBrowser: !_argv.s,
+    openBrowser: _argv.o,
+    buildCommand: _argv.c,
 };
 
 if (!_options.repoPath) {
     _options.repoPath = _path.resolve('./');
+}
+
+if (!_options.buildCommand) {
+    _log.error("Error:  Missing build command parameter");
+    process.exit();
 }
 
 _startApp()

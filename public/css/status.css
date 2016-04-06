@@ -15,17 +15,17 @@
         padding-right: 10px; }
       .mainContent #infoPane table tr td:last-child {
         width: 70%; }
-    .mainContent #infoPane #buildResult {
+    .mainContent #infoPane #buildResult div {
       font-weight: bold;
-      color: white; }
-    .mainContent #infoPane #buildResult .success {
-      background-color: green;
+      color: white;
       padding: 10px;
       display: inline-block; }
-    .mainContent #infoPane #buildResult .failed {
-      background-color: red;
-      padding: 10px;
-      display: inline-block; }
+      .mainContent #infoPane #buildResult div.success {
+        background-color: green; }
+      .mainContent #infoPane #buildResult div.failed {
+        background-color: red; }
+      .mainContent #infoPane #buildResult div.unknown {
+        background-color: gray; }
   .mainContent #buttonsPane input {
     padding: 10px;
     width: 200px;
@@ -37,5 +37,7 @@
       border: 1px solid black;
       text-align: left;
       padding: 15px; }
+      .mainContent #buildLog #buildLogContent .error {
+        color: red; }
 
 /*# sourceMappingURL=status.css.map */

@@ -29,21 +29,23 @@
             }
         }
 
-        #buildResult {
+        #buildResult div {
             font-weight: bold;
             color: white;
-        }
-
-        #buildResult .success {
-            background-color: green;
             padding: 10px;
             display: inline-block;
-        }
 
-        #buildResult .failed {
-            background-color: red;
-            padding: 10px;
-            display: inline-block;
+            &.success {
+                background-color: green;
+            }
+
+            &.failed {
+                background-color: red;
+            }
+
+            &.unknown {
+                background-color: gray;
+            }
         }
     }
 
@@ -63,6 +65,10 @@
             border: 1px solid black;
             text-align: left;
             padding: 15px;
+
+            .error {
+                color: red;
+            }
         }
     }
 }
