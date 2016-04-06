@@ -15,6 +15,14 @@ $(function() {
     });
 
     $('#triggerBuildButton').click(function() {
-        socket.emit('forceBuild');
+        socket.emit('forceBuild', '');
+    });
+
+    $('#triggerPollButton').click(function() {
+        socket.emit('forcePoll', '');
+    });
+
+    $('#browseFilesButton').click(function() {
+        window.location = "/build";
     });
 });

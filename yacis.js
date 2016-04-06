@@ -10,7 +10,7 @@ var portfinder = require('portfinder'),
 // Add .format method to strings
 require('./lib/string-helpers')
 
-var findOpenPort = function(callback) {
+var _findOpenPort = function(callback) {
 
     portfinder.basePort = 8080;
     portfinder.getPort(function (err, port) {
@@ -23,7 +23,7 @@ var findOpenPort = function(callback) {
     });
 }
 
-var exitAllOnCtrlC = function() {
+var _exitAllOnCtrlC = function() {
     if (process.platform === 'win32') {
         require('readline').createInterface({
             input: process.stdin,
@@ -39,21 +39,24 @@ var exitAllOnCtrlC = function() {
     });
 }
 
-var startApp = function() {
+var _startApp = function() {
 
-    if (_options.desiredPort) {
-        startServer(_options.desiredPort);
-    }
-    else {
-        findOpenPort(function(port) {
-            startServer(port);
-        });
-    }
+    _exitAllOnCtrlC()
 
-    exitAllOnCtrlC()
+    // Now that the server is started, start monitoring the repo
+    repoWatcher.monitorCurrentRepoForChanges("build.bat", ["-bf"], function() {
+        if (_options.desiredPort) {
+            _startServer(_options.desiredPort);
+        }
+        else {
+            _findOpenPort(function(port) {
+                _startServer(port);
+            });
+        }
+    });
 }
 
-var startServer = function(port) {
+var _startServer = function(port) {
 
     var serverOptions = {
         port: port,
@@ -73,15 +76,12 @@ var startServer = function(port) {
                 { command: null }
             );
         }
-
-        // Now that the server is started, start monitoring the repo
-        repoWatcher.monitorCurrentRepoForChanges("build.bat", ["-bf"]);
     });
 }
 
-var argv = minimist(process.argv.slice(2));
+var _argv = minimist(process.argv.slice(2));
 
-if (argv.h || argv.help) {
+if (_argv.h || _argv.help) {
     log.info([
         "usage: yacis [options]",
         "",
@@ -96,14 +96,14 @@ if (argv.h || argv.help) {
 }
 
 var _options = {
-    desiredPort: argv.p,
-    repoPath: argv.d,
-    openBrowser: !argv.s,
+    desiredPort: _argv.p,
+    repoPath: _argv.d,
+    openBrowser: !_argv.s,
 };
 
 if (!_options.repoPath) {
     _options.repoPath = path.resolve('./');
 }
 
-startApp()
+_startApp()
 
