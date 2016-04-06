@@ -75,7 +75,7 @@ var startServer = function(port) {
         }
 
         // Now that the server is started, start monitoring the repo
-        repoWatcher.monitorCurrentRepoForChanges("build.bat");
+        repoWatcher.monitorCurrentRepoForChanges("build.bat", ["-bf"]);
     });
 }
 

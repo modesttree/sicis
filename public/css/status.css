@@ -1,0 +1,25 @@
+#status {
+  background-color: red; }
+
+#content {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto; }
+  #content h2 {
+    text-align: center; }
+  #content table {
+    width: 100%; }
+    #content table tr td:first-child {
+      width: 30%;
+      text-align: right;
+      padding-right: 10px; }
+    #content table tr td:last-child {
+      width: 70%; }
+  #content #buildLog {
+    padding-top: 20px;
+    text-align: center; }
+  #content #buildLogContent {
+    background-color: yellow;
+    text-align: left; }
+
+/*# sourceMappingURL=status.css.map */

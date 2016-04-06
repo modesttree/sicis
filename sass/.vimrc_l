@@ -1,0 +1,19 @@
+
+BindAssertBufferLocal
+
+BindMethod n <localleader>r -buffer g:YacisCompileScss()
+
+BindClearBufferLocal
+
+function! g:YacisCompileScss()
+    call Ave#Util#TryWriteCurrentBuffer()
+    let fileName = Ave#File#GetFileName()
+
+    let result = Ave#Process#ExecuteAndReturnOutput('sass status.scss ../public/css/status.css')
+
+    if empty(result)
+        echo 'Updated status.css'
+    else
+        echo result
+    endif
+endfunction

@@ -1,3 +1,41 @@
 <html>
-    <div>{{status}}</div>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        <title>Build Status</title>
+
+        <script type="text/javascript" src="jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="scripts/status.js"></script>
+
+        <link rel="stylesheet" href="css/status.css">
+    </head>
+    <body>
+        <div id="content">
+            <h2>Modest Tree Build Server</h2>
+            <table>
+                <tr>
+                    <td>Status:</td>
+                    <td id="status">{{status}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="triggerBuildButton" type="button" value="Trigger Build"></input>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Last Build Result:</td>
+                    <td id="buildResult">{{buildResult}}</td>
+                </tr>
+            </table>
+
+            <div id="buildLog">
+                <div class="title">Most Recent Log: (see <a href="build/BuildLog.txt">full log</a> here)</div>
+                <pre id="buildLogContent">
+                    {{buildLog}}
+                </pre>
+            </div>
+        </div>
+    </body>
 </html>
