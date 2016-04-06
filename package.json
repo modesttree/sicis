@@ -10,12 +10,6 @@
         "type": "git",
         "url": "git+https://github.com/modesttree/sicis.git"
     },
-    "bin": {
-        "sicis": "sicis.js"
-    },
-    "engines": {
-        "node": ">= 0.10.x"
-    },
     "keywords": [
         "continuous",
         "integration",
@@ -46,6 +40,12 @@
         "socket.io": "^1.4.5",
         "socket.io-client": "^1.4.5",
         "spawn-args": "^0.1.0"
+    },
+    "bin": {
+        "sicis": "sicis.js"
+    },
+    "engines": {
+        "node": ">= 0.10.x"
     }
 }
 
