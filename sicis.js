@@ -61,12 +61,12 @@ var _startServer = function(port) {
     var serverOptions = {
         port: port,
         repoPath: _options.repoPath,
-        yacisRootPath: _path.dirname(process.argv[1]),
+        sicisRootPath: _path.dirname(process.argv[1]),
     };
 
     _httpServer.start(serverOptions, function () {
 
-        _log.info('Starting up yacis server for repo at "{0}"', _options.repoPath)
+        _log.info('Starting up sicis server for repo at "{0}"', _options.repoPath)
         _log.info('Web Interface at http://localhost:{0}', port)
         _log.info('Hit CTRL-C to stop the server');
 
@@ -83,11 +83,11 @@ var _argv = _minimist(process.argv.slice(2));
 
 if (_argv.h || _argv.help) {
     _log.info([
-        "usage: yacis [options]",
+        "usage: sicis [options]",
         "",
         "options:",
         "  -c                 Build command to trigger every time the repository is modified",
-        "  -d                 Directory to use for this yacis instance.  If not given, current directory is used. Note: Must be the root of a git repository.",
+        "  -d                 Directory to use for this sicis instance.  If not given, current directory is used. Note: Must be the root of a git repository.",
         "  -p                 Port to use (defaults to 8080)",
         "  -o                 Automatically open browser after server starts",
         "",

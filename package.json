@@ -1,14 +1,14 @@
 {
-  "name": "yacis",
+  "name": "sicis",
   "version": "0.0.1",
-  "description": "Yet ANother Continuous Integration Server",
-  "main": "yacis.js",
+  "description": "Stupidly Simple Continuous Integration Server",
+  "main": "sicis.js",
   "scripts": {
-    "start": "node ./yacis"
+    "start": "node ./sicis"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/modesttree/yacis.git"
+    "url": "git+https://github.com/modesttree/sicis.git"
   },
   "keywords": [
     "continuous",
@@ -20,9 +20,9 @@
   "author": "Steve Vermeulen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/modesttree/yacis/issues"
+    "url": "https://github.com/modesttree/sicis/issues"
   },
-  "homepage": "https://github.com/modesttree/yacis#readme",
+  "homepage": "https://github.com/modesttree/sicis#readme",
   "dependencies": {
     "assert": "^1.3.0",
     "bootstrap": "^3.3.6",
