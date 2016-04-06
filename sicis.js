@@ -90,7 +90,7 @@ if (_argv.h || _argv.help) {
         "  -c                 Build command to trigger every time the repository is modified",
         "  -d                 Directory to use for this sicis instance.  If not given, current directory is used. Note: Must be the root of a git repository.",
         "  -p                 Port to use (defaults to 8080)",
-        "  -o                 Automatically open browser after server starts",
+        "  -s                 Do not open browser automatically after server starts",
         "",
         "  -h --help          Print this list and exit."
     ].join('\n'));
@@ -100,7 +100,7 @@ if (_argv.h || _argv.help) {
 var _options = {
     desiredPort: _argv.p,
     repoPath: _argv.d,
-    openBrowser: _argv.o,
+    openBrowser: !_argv.s,
     buildCommand: _argv.c,
 };
 
