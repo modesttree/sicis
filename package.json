@@ -1,41 +1,47 @@
 {
-  "name": "sicis",
-  "version": "0.0.1",
-  "description": "Stupidly Simple Continuous Integration Server",
-  "main": "sicis.js",
-  "scripts": {
-    "start": "node ./sicis"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/modesttree/sicis.git"
-  },
-  "keywords": [
-    "continuous",
-    "integration",
-    "build",
-    "server",
-    "build"
-  ],
-  "author": "Steve Vermeulen",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/modesttree/sicis/issues"
-  },
-  "homepage": "https://github.com/modesttree/sicis#readme",
-  "dependencies": {
-    "assert": "^1.3.0",
-    "bootstrap": "^3.3.6",
-    "colors": "^1.1.2",
-    "ecstatic": "^1.4.0",
-    "express": "^4.13.4",
-    "jquery": "^2.2.3",
-    "minimist": "^1.2.0",
-    "mustache-express": "^1.2.2",
-    "opener": "^1.4.1",
-    "portfinder": "^1.0.3",
-    "socket.io": "^1.4.5",
-    "socket.io-client": "^1.4.5",
-    "spawn-args": "^0.1.0"
-  }
+    "name": "sicis",
+    "version": "0.0.1",
+    "description": "Stupidly Simple Continuous Integration Server",
+    "main": "sicis.js",
+    "scripts": {
+    },
+    "preferGlobal": true,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/modesttree/sicis.git"
+    },
+    "bin": {
+        "sicis": "sicis.js"
+    },
+    "keywords": [
+        "continuous",
+        "integration",
+        "build",
+        "server",
+        "build"
+    ],
+    "author": {
+        "name": "Steve Vermeulen"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/modesttree/sicis/issues"
+    },
+    "homepage": "https://github.com/modesttree/sicis#readme",
+    "dependencies": {
+        "assert": "^1.3.0",
+        "bootstrap": "^3.3.6",
+        "colors": "^1.1.2",
+        "ecstatic": "^1.4.0",
+        "express": "^4.13.4",
+        "jquery": "^2.2.3",
+        "minimist": "^1.2.0",
+        "mustache-express": "^1.2.2",
+        "opener": "^1.4.1",
+        "portfinder": "^1.0.3",
+        "socket.io": "^1.4.5",
+        "socket.io-client": "^1.4.5",
+        "spawn-args": "^0.1.0"
+    }
 }
+
