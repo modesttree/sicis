@@ -4,106 +4,106 @@ var portfinder = require('portfinder'),
     opener = require('opener'),
     path = require('path'),
     minimist = require('minimist'),
-    log = require('./lib/log');
+    log = require('./lib/log'),
+    repoWatcher = require('./lib/repoWatcher');
 
 // Add .format method to strings
 require('./lib/string-helpers')
 
-var repoWatcher = require('./lib/repoWatcher');
+var findOpenPort = function(callback) {
 
-repoWatcher.monitorCurrentRepoForChanges("build.bat");
+    portfinder.basePort = 8080;
+    portfinder.getPort(function (err, port) {
 
-//var findOpenPort = function(callback) {
+        if (err) {
+            throw err;
+        }
 
-    //portfinder.basePort = 8080;
-    //portfinder.getPort(function (err, port) {
+        callback(port);
+    });
+}
 
-        //if (err) {
-            //throw err;
-        //}
+var exitAllOnCtrlC = function() {
+    if (process.platform === 'win32') {
+        require('readline').createInterface({
+            input: process.stdin,
+            output: process.stdout
+        }).on('SIGINT', function () {
+            process.emit('SIGINT');
+        });
+    }
 
-        //callback(port);
-    //});
-//}
+    process.on('SIGINT', function() {
+        log.error('http-server stopped.');
+        process.exit();
+    });
+}
 
-//var exitAllOnCtrlC = function() {
-    //if (process.platform === 'win32') {
-        //require('readline').createInterface({
-            //input: process.stdin,
-            //output: process.stdout
-        //}).on('SIGINT', function () {
-            //process.emit('SIGINT');
-        //});
-    //}
+var startApp = function() {
 
-    //process.on('SIGINT', function() {
-        //log.error('http-server stopped.');
-        //process.exit();
-    //});
-//}
+    if (_options.desiredPort) {
+        startServer(_options.desiredPort);
+    }
+    else {
+        findOpenPort(function(port) {
+            startServer(port);
+        });
+    }
 
-//var startApp = function() {
+    exitAllOnCtrlC()
+}
 
-    //if (_options.desiredPort) {
-        //startServer(_options.desiredPort);
-    //}
-    //else {
-        //findOpenPort(function(port) {
-            //startServer(port);
-        //});
-    //}
+var startServer = function(port) {
 
-    //exitAllOnCtrlC()
-//}
+    var serverOptions = {
+        port: port,
+        repoPath: _options.repoPath,
+        yacisRootPath: path.dirname(process.argv[1]),
+    };
 
-//var startServer = function(port) {
+    httpServer.start(serverOptions, function () {
 
-    //var serverOptions = {
-        //port: port,
-        //repoPath: _options.repoPath,
-        //yacisRootPath: path.dirname(process.argv[1]),
-    //};
+        log.info('Starting up yacis server for repo at "{0}"', _options.repoPath)
+        log.info('Web Interface at http://localhost:{0}', port)
+        log.info('Hit CTRL-C to stop the server');
 
-    //httpServer.start(serverOptions, function () {
+        if (_options.openBrowser) {
+            opener(
+                'http://localhost:{0}/status'.format(port),
+                { command: null }
+            );
+        }
 
-        //log.info('Starting up yacis server for repo at "{0}"', _options.repoPath)
-        //log.info('Web Interface at http://localhost:{0}', port)
-        //log.info('Hit CTRL-C to stop the server');
+        // Now that the server is started, start monitoring the repo
+        repoWatcher.monitorCurrentRepoForChanges("build.bat");
+    });
+}
 
-        //if (_options.openBrowser) {
-            //opener(
-                //'http://localhost:{0}/status'.format(port),
-                //{ command: null }
-            //);
-        //}
-    //});
-//}
+var argv = minimist(process.argv.slice(2));
 
-//var argv = minimist(process.argv.slice(2));
+if (argv.h || argv.help) {
+    log.info([
+        "usage: yacis [options]",
+        "",
+        "options:",
+        "  -d                 Directory to use for this yacis instance.  If not given, current directory is used. Note: Must be the root of a git repository.",
+        "  -p                 Port to use [8080]",
+        "  -s                 Suppress browser from auto-opening",
+        "",
+        "  -h --help          Print this list and exit."
+    ].join('\n'));
+    process.exit();
+}
 
-//if (argv.h || argv.help) {
-    //log.info([
-        //"usage: yacis [options]",
-        //"",
-        //"options:",
-        //"  -d                 Directory to use for this yacis instance.  If not given, current directory is used. Note: Must be the root of a git repository.",
-        //"  -p                 Port to use [8080]",
-        //"  -s                 Suppress browser from auto-opening",
-        //"",
-        //"  -h --help          Print this list and exit."
-    //].join('\n'));
-    //process.exit();
-//}
+var _options = {
+    desiredPort: argv.p,
+    repoPath: argv.d,
+    openBrowser: !argv.s,
+};
 
-//var _options = {
-    //desiredPort: argv.p,
-    //repoPath: argv.d,
-    //openBrowser: !argv.s,
-//};
+if (!_options.repoPath) {
+    _options.repoPath = path.resolve('./');
+}
 
-//if (!_options.repoPath) {
-    //_options.repoPath = path.resolve('./');
-//}
-
-//startApp()
+startApp()
 
