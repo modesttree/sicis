@@ -32,9 +32,15 @@
                 <input id="stopBuildButton" type="button" value="Cancel Build"></input>
             </div>
             <div id="buildLog">
-                <div class="title">Log Summary: (see <a href="/BuildLog.txt">full log</a> here)</div>
-                <pre id="buildLogContent">
-{{{buildLog}}}
+                <div class="tabwell">
+                    <div class="deselected" id="previousLogButton">Previous Log</div>
+                    <div class="selected" id="currentLogButton">Current Log</div>
+                </div>
+                <pre id="currentBuildLogContent">
+{{{currentBuildLog}}}
+                </pre>
+                <pre style="display:none" id="previousBuildLogContent">
+{{{previousBuildLog}}}
                 </pre>
             </div>
         </div>

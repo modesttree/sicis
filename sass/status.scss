@@ -110,13 +110,42 @@ body {
     }
 
     #buildLog {
-        .title {
-            font-size: 20px;
-            margin-bottom: 8px;
+        .tabwell {
+            div {
+                cursor:pointer;
+                position: relative;
+                float: left;
+                padding: 10px 20px 10px 20px;
+                border-right: 1px solid black;
+                border-left: 1px solid black;
+                border-top: 1px solid black;
+
+                &.selected {
+                    background-color: white;
+                    top: 1px;
+                }
+
+                &.deselected {
+                    background-color: #eee;
+                    top: 0px;
+                }
+
+                &#currentLogButton {
+                    margin-left: 10px;
+                }
+
+                &#previousLogButton {
+                }
+            }
         }
 
-        #buildLogContent {
-            border: 1px solid black;
+        #currentBuildLogContent, #previousBuildLogContent {
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            background-color: white;
+            border-radius: 0 !important;
             height: calc(100% - #{$headerHeight} - 55px);
             width: 100%;
             padding: 15px;

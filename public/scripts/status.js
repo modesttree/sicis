@@ -33,17 +33,25 @@ $(function() {
         $('#buildResult').html(value);
     });
 
-    socket.on('buildLogUpdated', function(value) {
-        var log = $('#buildLogContent')[0];
+    var updateLog = function(logItem, logText) {
+        var log = logItem[0];
 
         var isScrolledToBottom = log.scrollHeight - log.clientHeight <= log.scrollTop + 1;
 
-        $('#buildLogContent').html(value);
+        logItem.html(logText);
 
         // scroll to bottom if isScrolledToBotto
         if (isScrolledToBottom) {
             log.scrollTop = log.scrollHeight - log.clientHeight;
         }
+    };
+
+    socket.on('currentBuildLogUpdated', function(logContent) {
+        updateLog($('#currentBuildLogContent'), logContent);
+    });
+
+    socket.on('previousBuildLogUpdated', function(logContent) {
+        updateLog($('#previousBuildLogContent'), logContent);
     });
 
     $('#stopBuildButton').click(function() {
@@ -62,7 +70,36 @@ $(function() {
         window.location = "/build";
     });
 
-    // Always start the log at the bottom
-    var log = $('#buildLogContent')[0];
-    log.scrollTop = log.scrollHeight - log.clientHeight;
+    var setLogToBottom = function(logItem) {
+        var log = logItem[0];
+        log.scrollTop = log.scrollHeight - log.clientHeight;
+    };
+
+    setLogToBottom($('#currentBuildLogContent'));
+    setLogToBottom($('#previousBuildLogContent'));
+
+    var changeDisplayedLog = function(useCurrent) {
+        if (useCurrent) {
+            $('#currentLogButton').attr('class', 'selected');
+            $('#previousLogButton').attr('class', 'deselected');
+
+            $('#previousBuildLogContent').hide();
+            $('#currentBuildLogContent').show();
+        }
+        else {
+            $('#previousLogButton').attr('class', 'selected');
+            $('#currentLogButton').attr('class', 'deselected');
+
+            $('#previousBuildLogContent').show();
+            $('#currentBuildLogContent').hide();
+        }
+    };
+
+    $('#currentLogButton').click(function() {
+        changeDisplayedLog(true);
+    });
+
+    $('#previousLogButton').click(function() {
+        changeDisplayedLog(false);
+    });
 });
