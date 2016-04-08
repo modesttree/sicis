@@ -21,9 +21,11 @@ var _exitAllOnCtrlC = function() {
     }
 
     process.on('SIGINT', function() {
-        _repoWatcher.stopBuild();
-        _log.error('http-server stopped.');
-        process.exit();
+        _log.error('CTRL+C detected.  First, stopping build...');
+        _repoWatcher.stopBuild(function() {
+            _log.error('Build stopped.  Exitting.');
+            process.exit();
+        });
     });
 }
 
