@@ -33,25 +33,29 @@ $(function() {
         $('#buildResult').html(value);
     });
 
-    var updateLog = function(logItem, logText) {
+    var updateLog = function(logItem, logText, firstUpdate) {
         var log = logItem[0];
 
         var isScrolledToBottom = log.scrollHeight - log.clientHeight <= log.scrollTop + 1;
 
         logItem.html(logText);
 
-        // scroll to bottom if isScrolledToBotto
-        if (isScrolledToBottom) {
+        if (firstUpdate || isScrolledToBottom) {
             log.scrollTop = log.scrollHeight - log.clientHeight;
         }
     };
 
+    var firstCurrentUpdate = true;
+    var firstPreviousUpdate = true;
+
     socket.on('currentBuildLogUpdated', function(logContent) {
-        updateLog($('#currentBuildLogContent'), logContent);
+        updateLog($('#currentBuildLogContent'), logContent, firstCurrentUpdate);
+        firstCurrentUpdate = false;
     });
 
     socket.on('previousBuildLogUpdated', function(logContent) {
-        updateLog($('#previousBuildLogContent'), logContent);
+        updateLog($('#previousBuildLogContent'), logContent, firstPreviousUpdate);
+        firstPreviousUpdate = false;
     });
 
     $('#stopBuildButton').click(function() {
@@ -69,14 +73,6 @@ $(function() {
     $('#browseFilesButton').click(function() {
         window.location = "/build";
     });
-
-    var setLogToBottom = function(logItem) {
-        var log = logItem[0];
-        log.scrollTop = log.scrollHeight - log.clientHeight;
-    };
-
-    setLogToBottom($('#currentBuildLogContent'));
-    setLogToBottom($('#previousBuildLogContent'));
 
     var changeDisplayedLog = function(useCurrent) {
         if (useCurrent) {
