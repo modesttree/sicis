@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-var _portfinder = require('portfinder'),
-    _httpServer = require('./lib/server'),
+var _httpServer = require('./lib/server'),
     _opener = require('opener'),
     _path = require('path'),
     _minimist = require('minimist'),
@@ -10,19 +9,6 @@ var _portfinder = require('portfinder'),
 
 // Add .format method to strings
 require('./lib/string-helpers')
-
-var _findOpenPort = function(callback) {
-
-    _portfinder.basePort = 8080;
-    _portfinder.getPort(function (err, port) {
-
-        if (err) {
-            throw err;
-        }
-
-        callback(port);
-    });
-}
 
 var _exitAllOnCtrlC = function() {
     if (process.platform === 'win32') {
@@ -46,21 +32,13 @@ var _startApp = function() {
 
     // Now that the server is started, start monitoring the repo
     _repoWatcher.monitorCurrentRepoForChanges(_options.buildCommand, function() {
-        if (_options.desiredPort) {
-            _startServer(_options.desiredPort);
-        }
-        else {
-            _findOpenPort(function(port) {
-                _startServer(port);
-            });
-        }
+        _startServer();
     });
 }
 
-var _startServer = function(port) {
-
+var _startServer = function() {
     var serverOptions = {
-        port: port,
+        port: _options.desiredPort,
         repoPath: _options.repoPath,
         sicisRootPath: _path.dirname(process.argv[1]),
     };
