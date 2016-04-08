@@ -2,8 +2,31 @@
 var socket = io();
 
 $(function() {
+    $('#stopBuildButton').prop('disabled', true);
+
     socket.on('statusUpdated', function(value) {
-        $('#status').html(value);
+
+        if (value == 'running') {
+            $('#status').html('<div class="running">Build Running</div>');
+            $('#stopBuildButton').prop('disabled', false);
+            $('#triggerPollButton').prop('disabled', true);
+            $('#triggerBuildButton').prop('disabled', true);
+        }
+        else {
+            $('#stopBuildButton').prop('disabled', true);
+            $('#triggerPollButton').prop('disabled', false);
+            $('#triggerBuildButton').prop('disabled', false);
+
+            if (value == 'polling') {
+                $('#status').html('<div class="polling">Polling Git</div>');
+            }
+            else if (value == 'idle') {
+                $('#status').html('<div class="idle">Idle</div>');
+            }
+            else {
+                $('#status').html('<div class="idle">Unknown</div>');
+            }
+        }
     });
 
     socket.on('buildResultUpdated', function(value) {
@@ -21,6 +44,10 @@ $(function() {
         if (isScrolledToBottom) {
             log.scrollTop = log.scrollHeight - log.clientHeight;
         }
+    });
+
+    $('#stopBuildButton').click(function() {
+        socket.emit('stopBuild', '');
     });
 
     $('#triggerBuildButton').click(function() {
