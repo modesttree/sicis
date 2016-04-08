@@ -21,6 +21,7 @@ var _exitAllOnCtrlC = function() {
     }
 
     process.on('SIGINT', function() {
+        _repoWatcher.stopBuild();
         _log.error('http-server stopped.');
         process.exit();
     });
