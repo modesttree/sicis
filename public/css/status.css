@@ -1,3 +1,6 @@
+body {
+  background-color: #ddd; }
+
 .mainContent {
   padding: 0px 20px 0 20px; }
   .mainContent #header {
@@ -12,21 +15,26 @@
       top: 20px;
       width: 800px;
       font-size: 20px; }
-    .mainContent #header .status {
+    .mainContent #header .status div {
       position: absolute;
       left: 400px;
       top: 70px;
-      width: 100px;
+      width: 200px;
       height: 50px;
       padding-top: 10px;
-      background-color: blue;
       color: white;
       text-align: center;
       font-size: 20px;
       font-weight: bold; }
+      .mainContent #header .status div.idle {
+        background-color: #33a; }
+      .mainContent #header .status div.running {
+        background-color: #33a; }
+      .mainContent #header .status div.polling {
+        background-color: purple; }
     .mainContent #header .buildResult div {
       position: absolute;
-      left: 530px;
+      left: 630px;
       top: 70px;
       width: 150px;
       height: 50px;
@@ -43,7 +51,7 @@
         background-color: gray; }
     .mainContent #header .buttonsPane {
       position: absolute;
-      left: 750px;
+      left: 850px;
       top: 70px;
       width: 800px;
       height: 100px; }
@@ -54,11 +62,13 @@
         margin-right: 15px;
         font-weight: bold; }
   .mainContent #buildLog .title {
-    font-size: 20px; }
+    font-size: 20px;
+    margin-bottom: 8px; }
   .mainContent #buildLog #buildLogContent {
     border: 1px solid black;
-    height: calc(100% - 140px - 40px);
-    width: 100%; }
+    height: calc(100% - 140px - 55px);
+    width: 100%;
+    padding: 15px; }
     .mainContent #buildLog #buildLogContent .error {
       color: red;
       font-weight: bold; }

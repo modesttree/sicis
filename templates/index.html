@@ -19,7 +19,7 @@
                     <img src="images/Logo.png" />
                 </div>
                 <div class="status">
-                    {{status}}
+                    {{{status}}}
                 </div>
                 <div class="buildResult">
                     {{{buildResult}}}
@@ -35,9 +35,9 @@
             </div>
             <div id="buildLog">
                 <div class="title">Log Summary: (see <a href="/build/BuildLog.txt">full log</a> here)</div>
-                <textarea id="buildLogContent">
+                <pre id="buildLogContent">
 {{{buildLog}}}
-                </textarea>
+                </pre>
             </div>
         </div>
     </body>
