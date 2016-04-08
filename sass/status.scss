@@ -1,5 +1,5 @@
 
-$headerHeight: 140px;
+$headerHeight: 100px;
 $headerButtonTop: 70px;
 
 body {
@@ -15,8 +15,11 @@ body {
         width: 100%;
 
         .logo {
-            text-align: left;
-            margin-bottom: 25px;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font-size: 41;
+            font-weight: bold;
         }
 
         .repoUrl {

@@ -4,11 +4,14 @@ body {
 .mainContent {
   padding: 0px 20px 0 20px; }
   .mainContent #header {
-    height: 140px;
+    height: 100px;
     width: 100%; }
     .mainContent #header .logo {
-      text-align: left;
-      margin-bottom: 25px; }
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      font-size: 41;
+      font-weight: bold; }
     .mainContent #header .repoUrl {
       position: absolute;
       left: 400px;
@@ -92,7 +95,7 @@ body {
     border-top: 1px solid black;
     background-color: white;
     border-radius: 0 !important;
-    height: calc(100% - 140px - 55px);
+    height: calc(100% - 100px - 55px);
     width: 100%;
     padding: 15px; }
     .mainContent #buildLog #currentBuildLogContent .error, .mainContent #buildLog #previousBuildLogContent .error {
