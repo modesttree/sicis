@@ -38,7 +38,7 @@ var _startApp = function() {
 
 var _startServer = function() {
     var serverOptions = {
-        port: _options.desiredPort,
+        port: _options.desiredPort ? _options.desiredPort : 8080,
         repoPath: _options.repoPath,
         sicisRootPath: _path.dirname(process.argv[1]),
     };
@@ -46,12 +46,12 @@ var _startServer = function() {
     _httpServer.start(serverOptions, function () {
 
         _log.info('Starting up sicis server for repo at "{0}"', _options.repoPath)
-        _log.info('Web Interface at http://localhost:{0}', port)
+        _log.info('Web Interface at http://localhost:{0}', serverOptions.port)
         _log.info('Hit CTRL-C to stop the server');
 
         if (_options.openBrowser) {
             _opener(
-                'http://localhost:{0}/'.format(port),
+                'http://localhost:{0}/'.format(serverOptions.port),
                 { command: null }
             );
         }

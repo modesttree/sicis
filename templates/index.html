@@ -14,39 +14,30 @@
     </head>
     <body>
         <div class="mainContent">
-            <div id="infoPane">
+            <div id="header">
                 <div class="logo">
                     <img src="images/Logo.png" />
                 </div>
-                <table>
-                    <tr>
-                        <td>Status:</td>
-                        <td id="status">{{status}}</td>
-                    </tr>
-                    <tr class="buildResultRow">
-                        <td>Last Build Result:</td>
-                        <td id="buildResult">{{{buildResult}}}</td>
-                    </tr>
-                    <tr>
-                        <td>Repository URL:</td>
-                        <td>{{{gitRepoUrl}}}</td>
-                    </tr>
-                    <tr>
-                        <td>Local Directory:</td>
-                        <td>{{{repoPath}}}</td>
-                    </tr>
-                </table>
-            </div>
-            <div id="buttonsPane">
-                <input id="triggerPollButton" type="button" value="Force Poll Repo"></input>
-                <input id="triggerBuildButton" type="button" value="Force Trigger Build"></input>
-                <input id="browseFilesButton" type="button" value="Browse File Listing"></input>
+                <div class="status">
+                    {{status}}
+                </div>
+                <div class="buildResult">
+                    {{{buildResult}}}
+                </div>
+                <div class="repoUrl">
+                    <a href="{{gitRepoUrl}}">{{gitRepoUrl}}</a> &nbsp;&nbsp;({{gitRepoBranch}})
+                </div>
+                <div class="buttonsPane">
+                    <input id="triggerPollButton" type="button" value="Force Poll Repo"></input>
+                    <input id="triggerBuildButton" type="button" value="Force Trigger Build"></input>
+                    <input id="browseFilesButton" type="button" value="Browse File Listing"></input>
+                </div>
             </div>
             <div id="buildLog">
-                <div class="title">Current / Most Recent Log: (see <a href="/build/BuildLog.txt">full log</a> here)</div>
-                <pre id="buildLogContent">
+                <div class="title">Log Summary: (see <a href="/build/BuildLog.txt">full log</a> here)</div>
+                <textarea id="buildLogContent">
 {{{buildLog}}}
-                </pre>
+                </textarea>
             </div>
         </div>
     </body>
