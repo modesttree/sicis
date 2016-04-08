@@ -73,7 +73,7 @@ var _startServer = function(port) {
 
         if (_options.openBrowser) {
             _opener(
-                'http://localhost:{0}/status'.format(port),
+                'http://localhost:{0}/'.format(port),
                 { command: null }
             );
         }
