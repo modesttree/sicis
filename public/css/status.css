@@ -49,18 +49,24 @@ body {
         background-color: red; }
       .mainContent #header #buildResult div.unknown {
         background-color: gray; }
-    .mainContent #header .buttonsPane {
+    .mainContent #header #browseFilesButton, .mainContent #header #triggerBuildButton, .mainContent #header #triggerPollButton {
+      padding: 10px;
+      width: 200px;
+      height: 50px;
+      margin-right: 15px;
+      font-weight: bold;
       position: absolute;
-      left: 850px;
       top: 70px;
-      width: 800px;
-      height: 100px; }
-      .mainContent #header .buttonsPane input {
-        padding: 10px;
-        width: 200px;
-        height: 50px;
-        margin-right: 15px;
-        font-weight: bold; }
+      height: 50px; }
+    .mainContent #header #triggerPollButton {
+      left: 850px;
+      width: 150px; }
+    .mainContent #header #triggerBuildButton {
+      left: 1020px;
+      width: 170px; }
+    .mainContent #header #browseFilesButton {
+      left: 1050px;
+      display: none; }
   .mainContent #buildLog .title {
     font-size: 20px;
     margin-bottom: 8px; }

@@ -27,14 +27,12 @@
                 <div class="repoUrl">
                     <a href="{{gitRepoUrl}}">{{gitRepoUrl}}</a> &nbsp;&nbsp;({{gitRepoBranch}})
                 </div>
-                <div class="buttonsPane">
-                    <input id="triggerPollButton" type="button" value="Force Poll Repo"></input>
-                    <input id="triggerBuildButton" type="button" value="Force Trigger Build"></input>
-                    <input id="browseFilesButton" type="button" value="Browse File Listing"></input>
-                </div>
+                <input id="triggerPollButton" type="button" value="Force Poll Repo"></input>
+                <input id="triggerBuildButton" type="button" value="Force Trigger Build"></input>
+                <input id="browseFilesButton" type="button" value="Browse File Listing"></input>
             </div>
             <div id="buildLog">
-                <div class="title">Log Summary: (see <a href="/build/BuildLog.txt">full log</a> here)</div>
+                <div class="title">Log Summary: (see <a href="/BuildLog.txt">full log</a> here)</div>
                 <pre id="buildLogContent">
 {{{buildLog}}}
                 </pre>

@@ -34,4 +34,8 @@ $(function() {
     $('#browseFilesButton').click(function() {
         window.location = "/build";
     });
+
+    // Always start the log at the bottom
+    var log = $('#buildLogContent')[0];
+    log.scrollTop = log.scrollHeight - log.clientHeight;
 });
