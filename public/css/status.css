@@ -15,7 +15,7 @@ body {
       top: 20px;
       width: 800px;
       font-size: 20px; }
-    .mainContent #header .status div {
+    .mainContent #header #status div {
       position: absolute;
       left: 400px;
       top: 70px;
@@ -26,13 +26,13 @@ body {
       text-align: center;
       font-size: 20px;
       font-weight: bold; }
-      .mainContent #header .status div.idle {
+      .mainContent #header #status div.idle {
+        background-color: gray; }
+      .mainContent #header #status div.running {
         background-color: #33a; }
-      .mainContent #header .status div.running {
-        background-color: #33a; }
-      .mainContent #header .status div.polling {
+      .mainContent #header #status div.polling {
         background-color: purple; }
-    .mainContent #header .buildResult div {
+    .mainContent #header #buildResult div {
       position: absolute;
       left: 630px;
       top: 70px;
@@ -43,11 +43,11 @@ body {
       padding-top: 10px;
       text-align: center;
       color: white; }
-      .mainContent #header .buildResult div.success {
+      .mainContent #header #buildResult div.success {
         background-color: green; }
-      .mainContent #header .buildResult div.failed {
+      .mainContent #header #buildResult div.failed {
         background-color: red; }
-      .mainContent #header .buildResult div.unknown {
+      .mainContent #header #buildResult div.unknown {
         background-color: gray; }
     .mainContent #header .buttonsPane {
       position: absolute;

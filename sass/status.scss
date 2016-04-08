@@ -27,7 +27,7 @@ body {
             font-size: 20px;
         }
 
-        .status div {
+        #status div {
             position: absolute;
             left: 400px;
             top: $headerButtonTop;
@@ -52,7 +52,7 @@ body {
             }
         }
 
-        .buildResult div {
+        #buildResult div {
             position: absolute;
             left: 630px;
             top: $headerButtonTop;
