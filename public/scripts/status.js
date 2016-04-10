@@ -4,47 +4,9 @@ var socket = io();
 $(function() {
     $('#stopBuildButton').prop('disabled', true);
 
-    var _startTime = null;
-    var _endTime = null;
-
-    socket.on('setStartTime', function(value) {
-        _startTime = value;
-        _endTime = null;
+    socket.on('setElapsedTime', function(value) {
+        $('#elapsedTime').html(value);
     });
-
-    socket.on('setEndTime', function(value) {
-        _endTime = value;
-    });
-
-    var _timeDeltaToString = function(deltaTimeMilliseconds) {
-        var seconds = Math.floor(deltaTimeMilliseconds / 1000);
-        var minutes = Math.floor(seconds / 60);
-        var hours = Math.floor(minutes / 60);
-
-        if (seconds < 60) {
-            return seconds == 1 ? "one second" : seconds + " seconds";
-        }
-
-        if (minutes < 60) {
-            return minutes == 1 ? "a minute" : minutes + " minutes";
-        }
-
-        return hours <= 1 ? "an hour" : hours + " hours";
-    };
-
-    setInterval(function() {
-        if (_startTime) {
-            if (_endTime) {
-                $('#elapsedTime').html('Total Time: ' + _timeDeltaToString(_endTime - _startTime));
-            }
-            else {
-                $('#elapsedTime').html('Elapsed: ' + _timeDeltaToString(Date.now() - _startTime));
-            }
-        }
-        else {
-            $('#elapsedTime').html('');
-        }
-    }, 1000);
 
     socket.on('setStatus', function(value) {
 

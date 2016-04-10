@@ -11,6 +11,13 @@ require('./lib/string-helpers')
 
 var _sicisRootPath = _path.dirname(process.argv[1]);
 
+var _cleanupAndExit = function() {
+    _repoWatcher.stopBuild(function() {
+        _log.info('Build stopped successfully');
+        process.exit();
+    });
+}
+
 var _exitAllOnCtrlC = function() {
     if (process.platform === 'win32') {
         require('readline').createInterface({
@@ -22,11 +29,13 @@ var _exitAllOnCtrlC = function() {
     }
 
     process.on('SIGINT', function() {
-        _log.error('CTRL+C detected.  First, stopping build...');
-        _repoWatcher.stopBuild(function() {
-            _log.error('Build stopped.  Exitting.');
-            process.exit();
-        });
+        _log.error('CTRL+C detected.  Exitting...');
+        _cleanupAndExit();
+    });
+    process.on('uncaughtException', function(err) {
+        _log.error('Uncaught Exception!  Exitting...');
+        _log.error(err.stack);
+        _cleanupAndExit();
     });
 }
 

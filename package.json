@@ -39,6 +39,7 @@
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.5",
     "spawn-args": "^0.1.0",
+    "timediff": "^1.1.1",
     "tree-kill": "^1.0.0",
     "yargs": "^4.4.0"
   },
