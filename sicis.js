@@ -33,7 +33,7 @@ var _startApp = function() {
     _exitAllOnCtrlC()
 
     // Now that the server is started, start monitoring the repo
-    _repoWatcher.monitorCurrentRepoForChanges(_options.buildCommand, function() {
+    _repoWatcher.start(_options.buildCommand, _options.autoBuild, function() {
         _startServer();
     });
 }
@@ -44,6 +44,7 @@ var _startServer = function() {
         repoPath: _options.repoPath,
         sicisRootPath: _path.dirname(process.argv[1]),
         title: _options.title,
+        autoBuild: _options.autoBuild,
     };
 
     _httpServer.start(serverOptions, function () {
@@ -101,7 +102,8 @@ _options = {
     repoPath: _argv.d,
     desiredPort: _argv.p,
     openBrowser: !_argv.b,
-    title: _argv.t
+    title: _argv.t,
+    autoBuild: !_argv.m,
 };
 
 _startApp()

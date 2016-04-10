@@ -56,7 +56,11 @@ $(function() {
         }
         else {
             $('#stopBuildButton').prop('disabled', true);
-            $('#triggerPollButton').prop('disabled', false);
+
+            if (_autoBuild) {
+                $('#triggerPollButton').prop('disabled', false);
+            }
+
             $('#triggerBuildButton').prop('disabled', false);
 
             if (value == 'polling') {

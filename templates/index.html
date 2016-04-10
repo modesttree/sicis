@@ -4,6 +4,10 @@
 
         <title>{{title}}</title>
 
+        <script type="text/javascript">
+            var _autoBuild = {{autoBuild}};
+        </script>
+
         <script type="text/javascript" src="jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="socket.io/socket.io.js"></script>
         <script type="text/javascript" src="scripts/status.js"></script>
@@ -30,7 +34,7 @@
                 <div class="repoUrl">
                     <a href="{{gitRepoUrl}}">{{gitRepoUrl}}</a> &nbsp;&nbsp;({{gitRepoBranch}})
                 </div>
-                <input id="triggerPollButton" type="button" value="Force Poll Repo"></input>
+                <input id="triggerPollButton" type="button" value="Force Poll Repo" disabled></input>
                 <input id="triggerBuildButton" type="button" value="Force Trigger Build"></input>
                 <input id="stopBuildButton" type="button" value="Cancel Build"></input>
             </div>
