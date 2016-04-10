@@ -43,6 +43,7 @@ var _startServer = function() {
         port: _options.desiredPort,
         repoPath: _options.repoPath,
         sicisRootPath: _path.dirname(process.argv[1]),
+        title: _options.title,
     };
 
     _httpServer.start(serverOptions, function () {
@@ -78,6 +79,9 @@ var _argv = require('yargs')
     .describe('b', 'If given, do not automatically open browser after server starts')
     .alias('b', 'browser')
 
+    .describe('t', 'Title to use for this build on the web interface')
+    .alias('t', 'title')
+
     .argv;
 
 if (!_argv.p) {
@@ -88,11 +92,16 @@ if (!_argv.d) {
     _argv.d = _path.resolve('./');
 }
 
+if (!_argv.t) {
+    _argv.t = "Build Server";
+}
+
 _options = {
     buildCommand: _argv._[0],
     repoPath: _argv.d,
     desiredPort: _argv.p,
     openBrowser: !_argv.b,
+    title: _argv.t
 };
 
 _startApp()
