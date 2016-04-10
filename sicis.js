@@ -3,7 +3,6 @@
 var _httpServer = require('./lib/server'),
     _opener = require('opener'),
     _path = require('path'),
-    _minimist = require('minimist'),
     _log = require('./lib/log'),
     _repoWatcher = require('./lib/repoWatcher');
 
@@ -41,7 +40,7 @@ var _startApp = function() {
 
 var _startServer = function() {
     var serverOptions = {
-        port: _options.desiredPort ? _options.desiredPort : 8080,
+        port: _options.desiredPort,
         repoPath: _options.repoPath,
         sicisRootPath: _path.dirname(process.argv[1]),
     };
@@ -60,39 +59,41 @@ var _startServer = function() {
         }
     });
 }
+var _argv = require('yargs')
+    .usage('Usage: sicis [command] [options]')
+    .example('sicis "RunBuild.bat -foo" --port 9000')
 
-var _argv = _minimist(process.argv.slice(2));
+    .command('command', 'Build command to trigger every time the repository is modified')
+    .demand(1)
 
-if (_argv.h || _argv.help) {
-    _log.info([
-        "usage: sicis [options]",
-        "",
-        "options:",
-        "  -c                 Build command to trigger every time the repository is modified",
-        "  -d                 Directory to use for this sicis instance.  If not given, current directory is used. Note: Must be the root of a git repository.",
-        "  -p                 Port to use (defaults to 8080)",
-        "  -s                 Do not open browser automatically after server starts",
-        "",
-        "  -h --help          Print this list and exit."
-    ].join('\n'));
-    process.exit();
+    .describe('d', 'Directory to use for this sicis instance.  Note: Must be the root of a git repository.  Default: current directory')
+    .alias('d', 'dir')
+
+    .describe('p', 'Port to use for web interface.  Default: 8080')
+    .alias('p', 'port')
+
+    .describe('m', 'If given, do not automatically trigger builds.  Wait for explicit trigger through web interface')
+    .alias('m', 'manual')
+
+    .describe('b', 'If given, do not automatically open browser after server starts')
+    .alias('b', 'browser')
+
+    .argv;
+
+if (!_argv.p) {
+    _argv.p = 8080;
 }
 
-var _options = {
-    desiredPort: _argv.p,
+if (!_argv.d) {
+    _argv.d = _path.resolve('./');
+}
+
+_options = {
+    buildCommand: _argv._[0],
     repoPath: _argv.d,
-    openBrowser: !_argv.s,
-    buildCommand: _argv.c,
+    desiredPort: _argv.p,
+    openBrowser: !_argv.b,
 };
-
-if (!_options.repoPath) {
-    _options.repoPath = _path.resolve('./');
-}
-
-if (!_options.buildCommand) {
-    _log.error("Error:  Missing build command parameter");
-    process.exit();
-}
 
 _startApp()
 
