@@ -9,6 +9,8 @@ var _httpServer = require('./lib/server'),
 // Add .format method to strings
 require('./lib/string-helpers')
 
+var _sicisRootPath = _path.dirname(process.argv[1]);
+
 var _exitAllOnCtrlC = function() {
     if (process.platform === 'win32') {
         require('readline').createInterface({
@@ -33,7 +35,7 @@ var _startApp = function() {
     _exitAllOnCtrlC()
 
     // Now that the server is started, start monitoring the repo
-    _repoWatcher.start(_options.buildCommand, _options.autoBuild, function() {
+    _repoWatcher.start(_options.buildCommand, _options.autoBuild, _options.singleBuildOnly, _sicisRootPath, function() {
         _startServer();
     });
 }
@@ -42,7 +44,7 @@ var _startServer = function() {
     var serverOptions = {
         port: _options.desiredPort,
         repoPath: _options.repoPath,
-        sicisRootPath: _path.dirname(process.argv[1]),
+        sicisRootPath: _sicisRootPath,
         title: _options.title,
         autoBuild: _options.autoBuild,
     };
@@ -83,6 +85,9 @@ var _argv = require('yargs')
     .describe('t', 'Title to use for this build on the web interface')
     .alias('t', 'title')
 
+    .describe('s', 'If set, Sicis will only run one build job at a time.  Note: This is only relevant if you are running multiple Sicis instances on the same machine')
+    .alias('s', 'singleBuildOnly')
+
     .argv;
 
 if (!_argv.p) {
@@ -104,6 +109,7 @@ _options = {
     openBrowser: !_argv.b,
     title: _argv.t,
     autoBuild: !_argv.m,
+    singleBuildOnly: _argv.s,
 };
 
 _startApp()

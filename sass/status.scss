@@ -44,6 +44,10 @@ body {
                 background-color: gray;
             }
 
+            &.waiting {
+                background-color: #aa0;
+            }
+
             &.running {
                 background-color: #33a;
             }

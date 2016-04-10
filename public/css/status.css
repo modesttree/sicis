@@ -30,6 +30,8 @@ body {
       font-weight: bold; }
       .mainContent #header #status div.idle {
         background-color: gray; }
+      .mainContent #header #status div.waiting {
+        background-color: #aa0; }
       .mainContent #header #status div.running {
         background-color: #33a; }
       .mainContent #header #status div.polling {

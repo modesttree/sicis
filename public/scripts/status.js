@@ -69,6 +69,9 @@ $(function() {
             else if (value == 'idle') {
                 $('#status').html('<div class="idle">Idle</div>');
             }
+            else if (value == 'waiting') {
+                $('#status').html('<div class="waiting">Waiting</div>');
+            }
             else {
                 $('#status').html('<div class="idle">Unknown</div>');
             }
