@@ -4,7 +4,49 @@ var socket = io();
 $(function() {
     $('#stopBuildButton').prop('disabled', true);
 
-    socket.on('statusUpdated', function(value) {
+    var _startTime = null;
+    var _endTime = null;
+
+    socket.on('setStartTime', function(value) {
+        _startTime = value;
+        _endTime = null;
+    });
+
+    socket.on('setEndTime', function(value) {
+        _endTime = value;
+    });
+
+    var _timeDeltaToString = function(deltaTimeMilliseconds) {
+        var seconds = Math.floor(deltaTimeMilliseconds / 1000);
+        var minutes = Math.floor(seconds / 60);
+        var hours = Math.floor(minutes / 60);
+
+        if (seconds < 60) {
+            return seconds == 1 ? "one second" : seconds + " seconds";
+        }
+
+        if (minutes < 60) {
+            return minutes == 1 ? "a minute" : minutes + " minutes";
+        }
+
+        return hours <= 1 ? "an hour" : hours + " hours";
+    };
+
+    setInterval(function() {
+        if (_startTime) {
+            if (_endTime) {
+                $('#elapsedTime').html('Total Time: ' + _timeDeltaToString(_endTime - _startTime));
+            }
+            else {
+                $('#elapsedTime').html('Elapsed: ' + _timeDeltaToString(Date.now() - _startTime));
+            }
+        }
+        else {
+            $('#elapsedTime').html('');
+        }
+    }, 1000);
+
+    socket.on('setStatus', function(value) {
 
         if (value == 'running') {
             $('#status').html('<div class="running">Build Running</div>');
@@ -29,7 +71,7 @@ $(function() {
         }
     });
 
-    socket.on('buildResultUpdated', function(value) {
+    socket.on('setBuildResult', function(value) {
         $('#buildResult').html(value);
     });
 
@@ -48,12 +90,12 @@ $(function() {
     var firstCurrentUpdate = true;
     var firstPreviousUpdate = true;
 
-    socket.on('currentBuildLogUpdated', function(logContent) {
+    socket.on('setCurrentBuildLog', function(logContent) {
         updateLog($('#currentBuildLogContent'), logContent, firstCurrentUpdate);
         firstCurrentUpdate = false;
     });
 
-    socket.on('previousBuildLogUpdated', function(logContent) {
+    socket.on('setPreviousBuildLog', function(logContent) {
         updateLog($('#previousBuildLogContent'), logContent, firstPreviousUpdate);
         firstPreviousUpdate = false;
     });

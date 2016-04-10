@@ -4,26 +4,25 @@ body {
 .mainContent {
   padding: 0px 20px 0 20px; }
   .mainContent #header {
-    height: 100px;
+    height: 150px;
     width: 100%; }
-    .mainContent #header .logo {
+    .mainContent #header .title {
       position: absolute;
       left: 20px;
-      top: 20px;
+      top: 10px;
       font-size: 41;
       font-weight: bold; }
     .mainContent #header .repoUrl {
       position: absolute;
-      left: 400px;
+      right: 20px;
       top: 20px;
-      width: 800px;
       font-size: 20px; }
     .mainContent #header #status div {
       position: absolute;
-      left: 400px;
-      top: 70px;
       width: 200px;
       height: 50px;
+      left: 185px;
+      top: 80px;
       padding-top: 10px;
       color: white;
       text-align: center;
@@ -35,10 +34,16 @@ body {
         background-color: #33a; }
       .mainContent #header #status div.polling {
         background-color: purple; }
+    .mainContent #header #elapsedTime {
+      position: absolute;
+      left: 295px;
+      top: 155px;
+      font-size: 15px;
+      font-weight: bold; }
     .mainContent #header #buildResult div {
       position: absolute;
-      left: 630px;
-      top: 70px;
+      left: 20px;
+      top: 80px;
       width: 150px;
       height: 50px;
       font-size: 20px;
@@ -59,18 +64,18 @@ body {
       margin-right: 15px;
       font-weight: bold;
       position: absolute;
-      top: 70px;
+      top: 80px;
       height: 50px; }
       .mainContent #header #stopBuildButton:disabled, .mainContent #header #triggerBuildButton:disabled, .mainContent #header #triggerPollButton:disabled {
         color: #aaa; }
     .mainContent #header #triggerPollButton {
-      left: 850px;
+      left: 450px;
       width: 150px; }
     .mainContent #header #triggerBuildButton {
-      left: 1020px;
+      left: 620px;
       width: 170px; }
     .mainContent #header #stopBuildButton {
-      left: 1210px;
+      left: 810px;
       width: 170px; }
   .mainContent #buildLog .tabwell div {
     cursor: pointer;
@@ -95,7 +100,7 @@ body {
     border-top: 1px solid black;
     background-color: white;
     border-radius: 0 !important;
-    height: calc(100% - 100px - 55px);
+    height: calc(100% - 150px - 55px);
     width: 100%;
     padding: 15px; }
     .mainContent #buildLog #currentBuildLogContent .error, .mainContent #buildLog #previousBuildLogContent .error {

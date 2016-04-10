@@ -1,6 +1,5 @@
 
-$headerHeight: 100px;
-$headerButtonTop: 70px;
+$headerHeight: 150px;
 
 body {
     background-color: #ddd;
@@ -14,28 +13,27 @@ body {
         height: $headerHeight;
         width: 100%;
 
-        .logo {
+        .title {
             position: absolute;
             left: 20px;
-            top: 20px;
+            top: 10px;
             font-size: 41;
             font-weight: bold;
         }
 
         .repoUrl {
             position: absolute;
-            left: 400px;
+            right: 20px;
             top: 20px;
-            width: 800px;
             font-size: 20px;
         }
 
         #status div {
             position: absolute;
-            left: 400px;
-            top: $headerButtonTop;
             width: 200px;
             height: 50px;
+            left: 185px;
+            top: 80px;
             padding-top: 10px;
             color: white;
             text-align: center;
@@ -55,10 +53,18 @@ body {
             }
         }
 
+        #elapsedTime {
+            position: absolute;
+            left: 295px;
+            top: 155px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
         #buildResult div {
             position: absolute;
-            left: 630px;
-            top: $headerButtonTop;
+            left: 20px;
+            top: 80px;
             width: 150px;
             height: 50px;
             font-size: 20px;
@@ -88,7 +94,7 @@ body {
             font-weight: bold;
 
             position: absolute;
-            top: $headerButtonTop;
+            top: 80px;
             height: 50px;
 
             &:disabled {
@@ -97,17 +103,17 @@ body {
         }
 
         #triggerPollButton {
-            left: 850px;
+            left: 450px;
             width: 150px;
         }
 
         #triggerBuildButton {
-            left: 1020px;
+            left: 620px;
             width: 170px;
         }
 
         #stopBuildButton {
-            left: 1210px;
+            left: 810px;
             width: 170px;
         }
     }
