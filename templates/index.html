@@ -6,6 +6,7 @@
 
         <script type="text/javascript">
             var _autoBuild = {{autoBuild}};
+            var _initialStatus = '{{status}}';
         </script>
 
         <script type="text/javascript" src="jquery/dist/jquery.min.js"></script>
@@ -23,7 +24,6 @@
                     {{{title}}}
                 </div>
                 <div id="status">
-                    {{{status}}}
                 </div>
                 <div id="elapsedTime">
                     {{{elapsedTime}}}
@@ -33,6 +33,9 @@
                 </div>
                 <div class="repoUrl">
                     <a href="{{gitRepoUrl}}">{{gitRepoUrl}}</a> &nbsp;&nbsp;({{gitRepoBranch}})
+                </div>
+                <div class="autoBuildGroup">
+                    <input id="autoBuild" type="checkbox" /><label for="autoBuild">Auto Build</label>
                 </div>
                 <input id="triggerPollButton" type="button" value="Force Poll Repo" disabled></input>
                 <input id="triggerBuildButton" type="button" value="Force Trigger Build"></input>

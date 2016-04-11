@@ -13,6 +13,17 @@ body {
         height: $headerHeight;
         width: 100%;
 
+        .autoBuildGroup {
+            position: absolute;
+            left: 875px;
+            top: 150px;
+            font-size: 16;
+
+            input {
+                margin-right: 10px;
+            }
+        }
+
         .title {
             position: absolute;
             left: 20px;

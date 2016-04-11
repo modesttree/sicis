@@ -1,50 +1,55 @@
 
-var socket = io();
+var Sicis = (function() {
 
-$(function() {
-    $('#stopBuildButton').prop('disabled', true);
+    var _socket = io();
 
-    socket.on('setElapsedTime', function(value) {
-        $('#elapsedTime').html(value);
-    });
+    var _firstCurrentUpdate = true;
+    var _firstPreviousUpdate = true;
 
-    socket.on('setStatus', function(value) {
+    var $_stopBuildButton;
+    var $_triggerBuildButton;
+    var $_browseFilesButton;
+    var $_currentLogButton;
+    var $_previousLogButton;
+    var $_statusDiv;
+    var $_triggerPollButton;
+    var $_buildResult;
+    var $_currentBuildLogContent;
+    var $_previousBuildLogContent;
+    var $_elapsedTime;
 
+    var _onStatusChanged = function(value) {
         if (value == 'running') {
-            $('#status').html('<div class="running">Build Running</div>');
-            $('#stopBuildButton').prop('disabled', false);
-            $('#triggerPollButton').prop('disabled', true);
-            $('#triggerBuildButton').prop('disabled', true);
+            $_statusDiv.html('<div class="running">Build Running</div>');
+            $_stopBuildButton.prop('disabled', false);
+            $_triggerPollButton.prop('disabled', true);
+            $_triggerBuildButton.prop('disabled', true);
         }
         else {
-            $('#stopBuildButton').prop('disabled', true);
+            $_stopBuildButton.prop('disabled', true);
 
             if (_autoBuild) {
-                $('#triggerPollButton').prop('disabled', false);
+                $_triggerPollButton.prop('disabled', false);
             }
 
-            $('#triggerBuildButton').prop('disabled', false);
+            $_triggerBuildButton.prop('disabled', false);
 
             if (value == 'polling') {
-                $('#status').html('<div class="polling">Polling Git</div>');
+                $_statusDiv.html('<div class="polling">Polling Git</div>');
             }
             else if (value == 'idle') {
-                $('#status').html('<div class="idle">Idle</div>');
+                $_statusDiv.html('<div class="idle">Idle</div>');
             }
             else if (value == 'waiting') {
-                $('#status').html('<div class="waiting">Waiting</div>');
+                $_statusDiv.html('<div class="waiting">Waiting</div>');
             }
             else {
-                $('#status').html('<div class="idle">Unknown</div>');
+                $_statusDiv.html('<div class="idle">Unknown</div>');
             }
         }
-    });
+    };
 
-    socket.on('setBuildResult', function(value) {
-        $('#buildResult').html(value);
-    });
-
-    var updateLog = function(logItem, logText, firstUpdate) {
+    var _updateLog = function(logItem, logText, firstUpdate) {
         var log = logItem[0];
 
         var isScrolledToBottom = log.scrollHeight - log.clientHeight <= log.scrollTop + 1;
@@ -56,57 +61,105 @@ $(function() {
         }
     };
 
-    var firstCurrentUpdate = true;
-    var firstPreviousUpdate = true;
+    var _onBuildResultChanged = function(value) {
+        $_buildResult.html(value);
+    };
 
-    socket.on('setCurrentBuildLog', function(logContent) {
-        updateLog($('#currentBuildLogContent'), logContent, firstCurrentUpdate);
-        firstCurrentUpdate = false;
-    });
+    var _onCurrentBuildLogChanged = function(logContent) {
+        _updateLog($_currentBuildLogContent, logContent, _firstCurrentUpdate);
+        _firstCurrentUpdate = false;
+    };
 
-    socket.on('setPreviousBuildLog', function(logContent) {
-        updateLog($('#previousBuildLogContent'), logContent, firstPreviousUpdate);
-        firstPreviousUpdate = false;
-    });
+    var _onPreviousBuildLogChanged = function(logContent) {
+        _updateLog($_previousBuildLogContent, logContent, _firstPreviousUpdate);
+        _firstPreviousUpdate = false;
+    };
 
-    $('#stopBuildButton').click(function() {
-        socket.emit('stopBuild', '');
-    });
+    var _onElapsedTimeChanged = function(value) {
+        $_elapsedTime.html(value);
+    };
 
-    $('#triggerBuildButton').click(function() {
-        socket.emit('forceBuild', '');
-    });
-
-    $('#triggerPollButton').click(function() {
-        socket.emit('forcePoll', '');
-    });
-
-    $('#browseFilesButton').click(function() {
-        window.location = "/build";
-    });
-
-    var changeDisplayedLog = function(useCurrent) {
+    var _changeDisplayedLog = function(useCurrent) {
         if (useCurrent) {
-            $('#currentLogButton').attr('class', 'selected');
-            $('#previousLogButton').attr('class', 'deselected');
+            $_currentLogButton.attr('class', 'selected');
+            $_previousLogButton.attr('class', 'deselected');
 
-            $('#previousBuildLogContent').hide();
-            $('#currentBuildLogContent').show();
+            $_previousBuildLogContent.hide();
+            $_currentBuildLogContent.show();
         }
         else {
-            $('#previousLogButton').attr('class', 'selected');
-            $('#currentLogButton').attr('class', 'deselected');
+            $_previousLogButton.attr('class', 'selected');
+            $_currentLogButton.attr('class', 'deselected');
 
-            $('#previousBuildLogContent').show();
-            $('#currentBuildLogContent').hide();
+            $_previousBuildLogContent.show();
+            $_currentBuildLogContent.hide();
         }
     };
 
-    $('#currentLogButton').click(function() {
-        changeDisplayedLog(true);
-    });
+    var _onCancelButtonClicked = function() {
+        _socket.emit('stopBuild', '');
+    };
 
-    $('#previousLogButton').click(function() {
-        changeDisplayedLog(false);
-    });
+    var _onTriggerBuildButtonClicked = function() {
+        _socket.emit('forceBuild', '');
+    };
+
+    var _onTriggerPollButtonClicked = function() {
+        _socket.emit('forcePoll', '');
+    };
+
+    var _onBrowseFilesButtonClicked = function() {
+        window.location = "/build";
+    };
+
+    var _onCurrentLogButtonClicked = function() {
+        _changeDisplayedLog(true);
+    };
+
+    var _onPreviousLogButtonClicked = function() {
+        _changeDisplayedLog(false);
+    };
+
+    var _listenOnHtmlEvents = function() {
+        $_stopBuildButton.click(_onCancelButtonClicked);
+        $_triggerBuildButton.click(_onTriggerBuildButtonClicked);
+        $_browseFilesButton.click(_onBrowseFilesButtonClicked);
+        $_currentLogButton.click(_onCurrentLogButtonClicked);
+        $_previousLogButton.click(_onPreviousLogButtonClicked);
+    };
+
+    var _listenOnServerEvents = function() {
+        _socket.on('elapsedTimeChanged', _onElapsedTimeChanged);
+        _socket.on('statusChanged', _onStatusChanged);
+        _socket.on('buildResultChanged', _onBuildResultChanged);
+        _socket.on('currentBuildLogChanged', _onCurrentBuildLogChanged);
+        _socket.on('previousBuildLogChanged', _onPreviousBuildLogChanged);
+    };
+
+    var _public = {};
+
+    _public.init = function() {
+        $_stopBuildButton = $('#stopBuildButton');
+        $_triggerBuildButton = $('#triggerBuildButton');
+        $_browseFilesButton = $('#browseFilesButton');
+        $_currentLogButton = $('#currentLogButton');
+        $_previousLogButton = $('#previousLogButton');
+        $_statusDiv = $('#status');
+        $_triggerPollButton = $('#triggerPollButton');
+        $_buildResult = $('#buildResult');
+        $_currentBuildLogContent = $('#currentBuildLogContent');
+        $_previousBuildLogContent = $('#previousBuildLogContent');
+        $_elapsedTime = $('#elapsedTime');
+
+        $_stopBuildButton.prop('disabled', true);
+
+        _listenOnServerEvents();
+        _listenOnHtmlEvents();
+    };
+
+    return _public;
+})();
+
+$(function() {
+    Sicis.init();
 });

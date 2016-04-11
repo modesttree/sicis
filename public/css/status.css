@@ -6,6 +6,13 @@ body {
   .mainContent #header {
     height: 150px;
     width: 100%; }
+    .mainContent #header .autoBuildGroup {
+      position: absolute;
+      left: 875px;
+      top: 150px;
+      font-size: 16; }
+      .mainContent #header .autoBuildGroup input {
+        margin-right: 10px; }
     .mainContent #header .title {
       position: absolute;
       left: 20px;
