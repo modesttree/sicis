@@ -18,7 +18,6 @@ var Sicis = (function() {
 
     var $_stopBuildButton;
     var $_triggerBuildButton;
-    var $_browseFilesButton;
     var $_currentLogButton;
     var $_previousLogButton;
     var $_statusDiv;
@@ -51,10 +50,7 @@ var Sicis = (function() {
         }
         else {
             $_stopBuildButton.prop('disabled', true);
-
-            if (_autoBuild) {
-                $_triggerPollButton.prop('disabled', false);
-            }
+            $_triggerPollButton.prop('disabled', !_autoBuild);
 
             $_triggerBuildButton.prop('disabled', false);
 
@@ -132,10 +128,6 @@ var Sicis = (function() {
         _socket.emit('forcePoll', '');
     };
 
-    var _onBrowseFilesButtonClicked = function() {
-        window.location = "/build";
-    };
-
     var _onCurrentLogButtonClicked = function() {
         _changeDisplayedLog(true);
     };
@@ -152,7 +144,7 @@ var Sicis = (function() {
     var _listenOnHtmlEvents = function() {
         $_stopBuildButton.click(_onCancelButtonClicked);
         $_triggerBuildButton.click(_onTriggerBuildButtonClicked);
-        $_browseFilesButton.click(_onBrowseFilesButtonClicked);
+        $_triggerPollButton.click(_onTriggerPollButtonClicked);
         $_currentLogButton.click(_onCurrentLogButtonClicked);
         $_previousLogButton.click(_onPreviousLogButtonClicked);
         $_autoBuildCheckbox.click(_onAutoBuildClicked);
@@ -187,6 +179,7 @@ var Sicis = (function() {
         _socket.on('autoBuildChanged', function(value) {
             _autoBuild = value;
             _onAutoBuildChanged();
+            _onStatusChanged();
         });
     };
 
@@ -217,7 +210,6 @@ var Sicis = (function() {
 
         $_stopBuildButton = $('#stopBuildButton');
         $_triggerBuildButton = $('#triggerBuildButton');
-        $_browseFilesButton = $('#browseFilesButton');
         $_currentLogButton = $('#currentLogButton');
         $_previousLogButton = $('#previousLogButton');
         $_statusDiv = $('#status');
