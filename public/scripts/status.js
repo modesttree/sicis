@@ -1,6 +1,11 @@
 
 var Sicis = (function() {
 
+    var _public = {};
+
+    _public.autoBuild = false;
+    _public.status = null;
+
     var _socket = io();
 
     var _firstCurrentUpdate = true;
@@ -18,7 +23,13 @@ var Sicis = (function() {
     var $_previousBuildLogContent;
     var $_elapsedTime;
 
-    var _onStatusChanged = function(value) {
+    var _assert = function(condition) {
+        if (!condition) {
+            throw new Error("Assert hit!");
+        }
+    };
+
+    var _updateStatusDiv = function(value) {
         if (value == 'running') {
             $_statusDiv.html('<div class="running">Build Running</div>');
             $_stopBuildButton.prop('disabled', false);
@@ -28,7 +39,7 @@ var Sicis = (function() {
         else {
             $_stopBuildButton.prop('disabled', true);
 
-            if (_autoBuild) {
+            if (_public.autoBuild) {
                 $_triggerPollButton.prop('disabled', false);
             }
 
@@ -128,17 +139,21 @@ var Sicis = (function() {
         $_previousLogButton.click(_onPreviousLogButtonClicked);
     };
 
+    var _onStatusChanged = function(value) {
+        _updateStatusDiv(value);
+    };
+
     var _listenOnServerEvents = function() {
         _socket.on('elapsedTimeChanged', _onElapsedTimeChanged);
-        _socket.on('statusChanged', _onStatusChanged);
+        _socket.on('statusChanged', _updateStatusDiv);
         _socket.on('buildResultChanged', _onBuildResultChanged);
         _socket.on('currentBuildLogChanged', _onCurrentBuildLogChanged);
         _socket.on('previousBuildLogChanged', _onPreviousBuildLogChanged);
     };
 
-    var _public = {};
-
     _public.init = function() {
+        _assert(_public.status);
+
         $_stopBuildButton = $('#stopBuildButton');
         $_triggerBuildButton = $('#triggerBuildButton');
         $_browseFilesButton = $('#browseFilesButton');
@@ -155,6 +170,8 @@ var Sicis = (function() {
 
         _listenOnServerEvents();
         _listenOnHtmlEvents();
+
+        _updateStatusDiv(_public.initialStatus);
     };
 
     return _public;

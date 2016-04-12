@@ -4,11 +4,6 @@
 
         <title>{{title}}</title>
 
-        <script type="text/javascript">
-            var _autoBuild = {{autoBuild}};
-            var _initialStatus = '{{status}}';
-        </script>
-
         <script type="text/javascript" src="jquery/dist/jquery.min.js"></script>
         <script type="text/javascript" src="socket.io/socket.io.js"></script>
         <script type="text/javascript" src="scripts/status.js"></script>
@@ -16,6 +11,11 @@
 
         <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/status.css">
+
+        <script type="text/javascript">
+            Sicis.autoBuild = {{autoBuild}};
+            Sicis.initialStatus = '{{status}}';
+        </script>
     </head>
     <body>
         <div class="mainContent">
