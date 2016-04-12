@@ -1,6 +1,7 @@
 
 var Sicis = (function() {
 
+    // Private variables
     var _hasInitialized;
 
     var _autoBuild = false;
@@ -26,12 +27,18 @@ var Sicis = (function() {
     var $_currentBuildLogContent;
     var $_previousBuildLogContent;
     var $_elapsedTime;
+    var $_autoBuildCheckbox;
 
+    // Private methods
     var _assert = function(condition) {
         if (!condition) {
             alert("Assert hit!");
             throw new Error("Assert hit!");
         }
+    };
+
+    var _onAutoBuildChanged = function() {
+        $_autoBuildCheckbox.prop('checked', _autoBuild);
     };
 
     var _onStatusChanged = function() {
@@ -137,12 +144,18 @@ var Sicis = (function() {
         _changeDisplayedLog(false);
     };
 
+    var _onAutoBuildClicked = function(event) {
+        event.preventDefault();
+        _socket.emit('setAutoBuild', !_autoBuild);
+    };
+
     var _listenOnHtmlEvents = function() {
         $_stopBuildButton.click(_onCancelButtonClicked);
         $_triggerBuildButton.click(_onTriggerBuildButtonClicked);
         $_browseFilesButton.click(_onBrowseFilesButtonClicked);
         $_currentLogButton.click(_onCurrentLogButtonClicked);
         $_previousLogButton.click(_onPreviousLogButtonClicked);
+        $_autoBuildCheckbox.click(_onAutoBuildClicked);
     };
 
     var _listenOnServerEvents = function() {
@@ -170,10 +183,17 @@ var Sicis = (function() {
             _previousBuildLog = value;
             _onPreviousBuildLogChanged();
         });
+
+        _socket.on('autoBuildChanged', function(value) {
+            _autoBuild = value;
+            _onAutoBuildChanged();
+        });
     };
 
+    // Public data
     var _pub = {};
 
+    // Public methods
     _pub.setStatus = function(value) {
         _status = value;
 
@@ -206,6 +226,7 @@ var Sicis = (function() {
         $_currentBuildLogContent = $('#currentBuildLogContent');
         $_previousBuildLogContent = $('#previousBuildLogContent');
         $_elapsedTime = $('#elapsedTime');
+        $_autoBuildCheckbox = $('#autoBuild');
 
         $_stopBuildButton.prop('disabled', true);
 
@@ -214,6 +235,8 @@ var Sicis = (function() {
 
         _assert(_status);
         _onStatusChanged();
+
+        _onAutoBuildChanged();
     };
 
     return _pub;
