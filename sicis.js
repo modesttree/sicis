@@ -56,6 +56,7 @@ var _startServer = function() {
         sicisRootPath: _sicisRootPath,
         title: _options.title,
         autoBuild: _options.autoBuild,
+        authFilePath: _options.authFilePath,
     };
 
     _httpServer.start(serverOptions, function () {
@@ -100,6 +101,9 @@ var _argv = require('yargs')
     .describe('i', 'The amount of seconds to wait before polling the git repository again. Default: 60')
     .alias('i', 'pollInterval')
 
+    .describe('a', 'Path to username / password file generated from the http-auth/htpasswd package')
+    .alias('a', 'authFile')
+
     .argv;
 
 if (!_argv.p) {
@@ -127,6 +131,7 @@ _options = {
     autoBuild: !_argv.m,
     singleBuildOnly: _argv.s,
     pollInterval: _argv.i,
+    authFilePath: _argv.a,
 };
 
 _startApp()

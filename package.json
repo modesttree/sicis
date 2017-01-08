@@ -32,6 +32,7 @@
     "ecstatic": "^1.4.0",
     "escape-html": "^1.0.3",
     "express": "^4.13.4",
+    "http-auth": "github:http-auth/http-auth",
     "jquery": "^2.2.3",
     "minimist": "^1.2.0",
     "mustache-express": "^1.2.2",
