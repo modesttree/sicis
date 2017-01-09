@@ -57,6 +57,9 @@ var _startServer = function() {
         title: _options.title,
         autoBuild: _options.autoBuild,
         authFilePath: _options.authFilePath,
+        logPath: _options.logPath,
+        currentLogPath: _argv.currentLogPath,
+        previousLogPath: _argv.previousLogPath,
     };
 
     _httpServer.start(serverOptions, function () {
@@ -104,6 +107,12 @@ var _argv = require('yargs')
     .describe('a', 'Path to username / password file generated from the http-auth/htpasswd package')
     .alias('a', 'authFile')
 
+    .describe('l', 'Path to the current detailed log for the given build process')
+    .alias('l', 'currentLogPath')
+
+    .describe('g', 'Path to the previous detailed log for the given build process')
+    .alias('g', 'previousLogPath')
+
     .argv;
 
 if (!_argv.p) {
@@ -132,6 +141,8 @@ _options = {
     singleBuildOnly: _argv.s,
     pollInterval: _argv.i,
     authFilePath: _argv.a,
+    currentLogPath: _argv.l,
+    previousLogPath: _argv.g,
 };
 
 _startApp()

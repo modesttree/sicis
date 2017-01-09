@@ -22,11 +22,13 @@ var Sicis = (function() {
     var $_previousLogButton;
     var $_statusDiv;
     var $_triggerPollButton;
+    var $_downloadLogButton;
     var $_buildResult;
     var $_currentBuildLogContent;
     var $_previousBuildLogContent;
     var $_elapsedTime;
     var $_autoBuildCheckbox;
+    var $_isDisplayingCurrent = true;
 
     // Private methods
     var _assert = function(condition) {
@@ -100,6 +102,7 @@ var Sicis = (function() {
     };
 
     var _changeDisplayedLog = function(useCurrent) {
+        $_isDisplayingCurrent = useCurrent;
         if (useCurrent) {
             $_currentLogButton.attr('class', 'selected');
             $_previousLogButton.attr('class', 'deselected');
@@ -128,6 +131,15 @@ var Sicis = (function() {
         _socket.emit('forcePoll', '');
     };
 
+    var _onDownloadLogButtonClicked = function() {
+        if ($_isDisplayingCurrent) {
+            window.location.href = 'detailedCurrentLog.txt';
+        }
+        else {
+            window.location.href = 'detailedPreviousLog.txt';
+        }
+    };
+
     var _onCurrentLogButtonClicked = function() {
         _changeDisplayedLog(true);
     };
@@ -145,6 +157,7 @@ var Sicis = (function() {
         $_stopBuildButton.click(_onCancelButtonClicked);
         $_triggerBuildButton.click(_onTriggerBuildButtonClicked);
         $_triggerPollButton.click(_onTriggerPollButtonClicked);
+        $_downloadLogButton.click(_onDownloadLogButtonClicked);
         $_currentLogButton.click(_onCurrentLogButtonClicked);
         $_previousLogButton.click(_onPreviousLogButtonClicked);
         $_autoBuildCheckbox.click(_onAutoBuildClicked);
@@ -214,6 +227,7 @@ var Sicis = (function() {
         $_previousLogButton = $('#previousLogButton');
         $_statusDiv = $('#status');
         $_triggerPollButton = $('#triggerPollButton');
+        $_downloadLogButton = $('#downloadLogButton');
         $_buildResult = $('#buildResult');
         $_currentBuildLogContent = $('#currentBuildLogContent');
         $_previousBuildLogContent = $('#previousBuildLogContent');
