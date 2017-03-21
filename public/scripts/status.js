@@ -11,7 +11,8 @@ var Sicis = (function() {
     var _currentBuildLog;
     var _previousBuildLog;
 
-    var _socket = io();
+    // Use the pathname so that it can run inside a proxy
+    var _socket = io({'path': window.location.pathname + 'socket.io'});
 
     var _firstCurrentUpdate = true;
     var _firstPreviousUpdate = true;
