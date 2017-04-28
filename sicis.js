@@ -44,7 +44,7 @@ var _startApp = function() {
     _exitAllOnCtrlC()
 
     // Now that the server is started, start monitoring the repo
-    _repoWatcher.start(_options.buildCommand, _options.autoBuild, _options.singleBuildOnly, _options.pollInterval, _sicisRootPath, function() {
+    _repoWatcher.start(_options.buildCommand, _options.autoBuild, _options.maxConcurrentBuilds, _options.pollInterval, _sicisRootPath, function() {
         _startServer();
     });
 }
@@ -98,8 +98,8 @@ var _argv = require('yargs')
     .describe('t', 'Title to use for this build on the web interface')
     .alias('t', 'title')
 
-    .describe('s', 'If set, Sicis will only run one build job at a time.  Note: This is only relevant if you are running multiple Sicis instances on the same machine')
-    .alias('s', 'singleBuildOnly')
+    .describe('x', 'Max number of concurrent builds to allow')
+    .alias('x', 'maxConcurrentBuilds')
 
     .describe('i', 'The amount of seconds to wait before polling the git repository again. Default: 60')
     .alias('i', 'pollInterval')
@@ -138,7 +138,7 @@ _options = {
     openBrowser: !_argv.b,
     title: _argv.t,
     autoBuild: !_argv.m,
-    singleBuildOnly: _argv.s,
+    maxConcurrentBuilds: _argv.x,
     pollInterval: _argv.i,
     authFilePath: _argv.a,
     currentLogPath: _argv.l,
