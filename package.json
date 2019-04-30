@@ -1,6 +1,6 @@
 {
   "name": "sicis",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Stupidly Simple Continuous Integration Server",
   "main": "sicis.js",
   "scripts": {},
@@ -17,8 +17,8 @@
     "build"
   ],
   "author": {
-    "name": "Steve Vermeulen",
-    "email": "sfvermeulen@gmail.com"
+    "name": "Modest Tree Media",
+    "email": "support@modesttree.com"
   },
   "license": "MIT",
   "bugs": {
@@ -29,11 +29,10 @@
     "assert": "^1.3.0",
     "bootstrap": "^3.3.6",
     "colors": "^1.1.2",
-    "ecstatic": "^1.4.0",
     "escape-html": "^1.0.3",
     "express": "^4.13.4",
     "http-auth": "github:http-auth/http-auth",
-    "jquery": "^2.2.3",
+    "jquery": ">=3.4.0",
     "minimist": "^1.2.0",
     "mustache-express": "^1.2.2",
     "opener": "^1.4.1",
